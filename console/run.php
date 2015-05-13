@@ -13,8 +13,14 @@ require_once(__DIR__ . '/../inc/rb.php');
 require_once(__DIR__ . '/../inc/locksystem.php');
 require_once(__DIR__ . '/config.php');
 
+/**
+ * Class console
+ */
 class console
 {
+    /**
+     * @return Array - ['r'] (ID of last block), ['e'] (Error msg)
+     */
     private static function getDBBlockCount()
     {
         try {
@@ -31,6 +37,9 @@ class console
         return $return;
     }
 
+    /**
+     * @return Array - JSON RPC ARRAY
+     */
     private static function getBlockCount()
     {
         $wallet = new jsonRPCClient(HOTWALLET, true);
@@ -38,6 +47,11 @@ class console
         return $return;
     }
 
+    /**
+     * @param $vin - JSON RPC DATA
+     * @return string
+     * @throws \RedBeanPHP\RedException
+     */
     private static function processVin($vin)
     {
         $processVin = $vin['vin'];
@@ -58,6 +72,11 @@ class console
         return "Completed";
     }
 
+    /**
+     * @param $vout - JSON RPC DATA
+     * @return mixed
+     * @throws \RedBeanPHP\RedException
+     */
     private static function processVout($vout)
     {
         $valueTotal  = 0;
@@ -87,6 +106,11 @@ class console
         return $return;
     }
 
+    /**
+     * @param $tx - JSON RPC DATA
+     * @return string
+     * @throws \RedBeanPHP\RedException
+     */
     private static function processTX($tx)
     {
         $dispense = R::dispense('transactions');
@@ -101,6 +125,10 @@ class console
         return "Completed";
     }
 
+    /**
+     * @param $transactions - ARRAY DATA
+     * @return mixed
+     */
     private static function processTransactions($transactions)
     {
         $totalValue       = 0;
@@ -120,6 +148,11 @@ class console
         return $return;
     }
 
+    /**
+     * @param $blockID - Block ID to process
+     * @return mixed
+     * @throws \RedBeanPHP\RedException
+     */
     private static function copyBlockToDB($blockID)
     {
         $wallet       = new jsonRPCClient(HOTWALLET, true);
@@ -147,6 +180,10 @@ class console
         return $return;
     }
 
+    /**
+     * @param null $block
+     * @return string
+     */
     public static function processBlocks($block = null)
     {
         $totalBlocks   = self::getBlockCount();
