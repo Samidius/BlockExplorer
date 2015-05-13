@@ -13,4 +13,8 @@ class blockchain {
     static public function api() {
         return new blockchain();
     }
+    static public function test() {
+        $return['Data'] = "test";
+        return $return;
+    }
 }
