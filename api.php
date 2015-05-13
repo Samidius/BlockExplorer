@@ -25,7 +25,6 @@ class jsonRPCServer {
         $request = json_decode(file_get_contents('php://input'),true);
         // executes the task on local object
         try {
-            //$return = $getapi->$api[3]($api,$user,$_POST,$_SERVER,$_REQUEST);
             if ($result = @call_user_func_array(array($object,$request['method']),$request['params'])) {
                 $response = array (
                     'id' => $request['id'],
@@ -55,8 +54,6 @@ class jsonRPCServer {
         return true;
     }
 }
-$redirectURL = ltrim($_SERVER['REQUEST_URI'],'/');
-$api = explode("/", $redirectURL);
-$getAPI = call_user_func(array($api[2], "link"));
+$getAPI = call_user_func(array($_GET['system'], "api"));
 jsonRPCServer::handle($getAPI)
 or print 'no request';
