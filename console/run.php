@@ -13,7 +13,7 @@ error_reporting(0);
 require_once(__DIR__ . '/../inc/jsonrpc.php');
 require_once(__DIR__ . '/../inc/rb.php');
 require_once(__DIR__ . '/../inc/locksystem.php');
-require_once(__DIR__ . '/config.php');
+require_once(__DIR__ . '/../config.php');
 define("VERSION","0.1.0");
 /**
  * Class console
