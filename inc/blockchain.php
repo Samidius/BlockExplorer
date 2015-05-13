@@ -10,5 +10,7 @@
  * Class blockchain
  */
 class blockchain {
-
+    static public function api() {
+        return new blockchain();
+    }
 }
