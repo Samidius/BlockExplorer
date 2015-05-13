@@ -8,7 +8,11 @@ class locksystem
 {
     public static function lock($file, $timeLimit)
     {
-        $filename = __DIR__ . "\\" . $file;
+        if (self::systemcheck() == "win") {
+            $filename = __DIR__ . "\\" . $file;
+        } else {
+            $filename = __DIR__ . "/" . $file;
+        }
         if (!file_exists($filename)) {
             $fp   = fopen($filename, "w");
             $contents['locked']     = "no";
@@ -42,11 +46,22 @@ class locksystem
 
     public static function unlock($file)
     {
-        $filename               = __DIR__ . "/" . $file;
+        if (self::systemcheck() == "win") {
+            $filename = __DIR__ . "\\" . $file;
+        } else {
+            $filename = __DIR__ . "/" . $file;
+        }
         $contents['locked']     = "no";
         $contenst['lastlocked'] = time();
         $fp                     = fopen($filename, 'w');
         fwrite($fp, json_encode($contents));
         fclose($fp);
+    }
+    private static function systemcheck() {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return "win";
+        } else {
+            return "other";
+        }
     }
 }
