@@ -9,26 +9,26 @@ class locksystem
     public static function lock($file, $timeLimit)
     {
         if (self::systemcheck() == "win") {
-            $filename = __DIR__ . "\\" . $file;
+            $fileName = __DIR__ . "\\" . $file;
         } else {
-            $filename = __DIR__ . "/" . $file;
+            $fileName = __DIR__ . "/" . $file;
         }
-        if (!file_exists($filename)) {
-            $fp   = fopen($filename, "w");
+        if (!file_exists($fileName)) {
+            $fp   = fopen($fileName, "w");
             $contents['locked']     = "no";
             $contents['lastlocked'] = time();
             fwrite($fp, json_encode($contents));
             fclose($fp);
         }
-        $handle   = fopen($filename, "r");
-        $contents = json_decode(fread($handle, filesize($filename)), true);
+        $handle   = fopen($fileName, "r");
+        $contents = json_decode(fread($handle, filesize($fileName)), true);
         fclose($handle);
         $return['locked'] = "no";
         if ((int)$contents['lastlocked'] > strtotime("-" . $timeLimit . " minutes")) {
             if ($contents['locked'] == "no") {
                 $contents['locked']     = "yes";
                 $contents['lastlocked'] = time();
-                $fp                     = fopen($filename, 'w');
+                $fp                     = fopen($fileName, 'w');
                 fwrite($fp, json_encode($contents));
                 fclose($fp);
             } else {
@@ -37,7 +37,7 @@ class locksystem
         } else {
             $contents['locked']     = "yes";
             $contents['lastlocked'] = time();
-            $fp                     = fopen($filename, 'w');
+            $fp                     = fopen($fileName, 'w');
             fwrite($fp, json_encode($contents));
             fclose($fp);
         }
@@ -47,13 +47,13 @@ class locksystem
     public static function unlock($file)
     {
         if (self::systemcheck() == "win") {
-            $filename = __DIR__ . "\\" . $file;
+            $fileName = __DIR__ . "\\" . $file;
         } else {
-            $filename = __DIR__ . "/" . $file;
+            $fileName = __DIR__ . "/" . $file;
         }
         $contents['locked']     = "no";
         $contenst['lastlocked'] = time();
-        $fp                     = fopen($filename, 'w');
+        $fp                     = fopen($fileName, 'w');
         fwrite($fp, json_encode($contents));
         fclose($fp);
     }
