@@ -6,6 +6,11 @@
  */
 class locksystem
 {
+    /**
+     * @param $file - Filename of your lock file
+     * @param $timeLimit - How many mintues before it the process runs anyways.
+     * @return Array - ['locked'] (yes/no)
+     */
     public static function lock($file, $timeLimit)
     {
         if (self::systemcheck() == "win") {
@@ -44,6 +49,9 @@ class locksystem
         return $return;
     }
 
+    /**
+     * @param $file - Filename of your lock file
+     */
     public static function unlock($file)
     {
         if (self::systemcheck() == "win") {
@@ -57,6 +65,10 @@ class locksystem
         fwrite($fp, json_encode($contents));
         fclose($fp);
     }
+
+    /**
+     * @return string - (win/other)
+     */
     private static function systemcheck() {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return "win";
