@@ -14,9 +14,18 @@ require_once(__DIR__ . '/../inc/rb.php');
  * Start LockFile BaseDir
  * This is the Location of where you will store your lock file
  */
-define("BASEDIR","C:/wamp/www/ledger/console/");
+define("BASEDIR", "C:/wamp/www/ledger/console/");
 /**
  * End LockFile BaseDir
+ */
+
+/**
+ * Start ProcessBlocks
+ * Set The amount of Blocks it will process
+ */
+define("PROCESSBLOCKS", 500);
+/**
+ * End ProcessBlocks
  */
 
 /**
@@ -197,10 +206,10 @@ function processBlocks($block = null)
     } else {
         if ($totalBlocks > $totalDBBlocks) {
             $block    = $totalDBBlocks + 1;
-            $blockTen = $block + 40;
+            $blockTen = $block + PROCESSBLOCKS;
             while ($block < $blockTen) {
                 $block = (int)$block;
-                echo $block . "\n";
+                echo date("F j, Y, g:i:s a") . " BLOCK #" . $block . "\n";
                 $array['copyBlockToDB'] = copyBlockToDB($block);
                 $block                  = $block + 1;
             }
@@ -213,13 +222,13 @@ function processBlocks($block = null)
     return $return;
 }
 
-$filename = BASEDIR."blockcheck.txt";
+$filename = BASEDIR . "blockcheck.txt";
 $handle   = fopen($filename, "r");
 $contents = json_decode(fread($handle, filesize($filename)), true);
 fclose($handle);
 if ($contents['locked'] == "no") {
     $contents['locked'] = "yes";
-    $fp = fopen($filename, 'w');
+    $fp                 = fopen($filename, 'w');
     fwrite($fp, json_encode($contents));
     fclose($fp);
     parse_str(implode('&', array_slice($argv, 1)), $_GET);
@@ -229,7 +238,7 @@ if ($contents['locked'] == "no") {
         echo processBlocks();
     }
     $contents['locked'] = "no";
-    $fp = fopen($filename, 'w');
+    $fp                 = fopen($filename, 'w');
     fwrite($fp, json_encode($contents));
     fclose($fp);
 } else {
