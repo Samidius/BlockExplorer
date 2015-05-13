@@ -63,7 +63,7 @@ class locksystem
             $fileName = __DIR__ . "/" . $file;
         }
         $contents['locked']     = "no";
-        $contenst['lastlocked'] = time();
+        $contents['lastlocked'] = time();
         $fp                     = fopen($fileName, 'w');
         fwrite($fp, json_encode($contents));
         fclose($fp);
