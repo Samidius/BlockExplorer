@@ -10,20 +10,12 @@
 
 require_once(__DIR__ . '/../inc/jsonrpc.php');
 require_once(__DIR__ . '/../inc/rb.php');
-/**
- * Start LockFile BaseDir
- * This is the Location of where you will store your lock file
- */
-define("BASEDIR", "C:/wamp/www/ledger/console/");
-/**
- * End LockFile BaseDir
- */
 
 /**
  * Start ProcessBlocks
  * Set The amount of Blocks it will process
  */
-define("PROCESSBLOCKS", 500);
+define("PROCESSBLOCKS", 1000);
 /**
  * End ProcessBlocks
  */
@@ -222,7 +214,7 @@ function processBlocks($block = null)
     return $return;
 }
 
-$filename = BASEDIR . "blockcheck.txt";
+$filename = __DIR__. "/blockcheck.txt";
 $handle   = fopen($filename, "r");
 $contents = json_decode(fread($handle, filesize($filename)), true);
 fclose($handle);
