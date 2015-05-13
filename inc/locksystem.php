@@ -53,6 +53,7 @@ class locksystem
 
     /**
      * @param $file - Filename of your lock file
+     * @return string
      */
     public static function unlock($file)
     {
@@ -66,6 +67,7 @@ class locksystem
         $fp                     = fopen($fileName, 'w');
         fwrite($fp, json_encode($contents));
         fclose($fp);
+        return "unlocked";
     }
 
     /**
